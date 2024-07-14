@@ -34,12 +34,6 @@ app.get("/github-token", async (req, res) => {
 
     const data = await response.json();
 
-    // set access token in cookies
-    // res.cookie("github_token", data.access_token, {
-    //   httpOnly: true,
-    //   secure: process.env.NODE_ENV === "production",
-    // });
-
     res.send(data);
   } catch (error) {
     res
