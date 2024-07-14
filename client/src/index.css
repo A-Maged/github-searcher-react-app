@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  font-size: 18px;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  height: 100%;
+}
+
+input,
+select {
+  @apply px-4 py-2  border-r-8 border-transparent  outline outline-[1px] outline-slate-400;
+}
+
+select {
+  @apply text-slate-500;
+}
+
+.btn {
+  @apply flex gap-3 items-center bg-blue-500 text-white font-bold py-2 px-4 rounded;
+}
