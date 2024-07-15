@@ -2,9 +2,9 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import { githubApiSlice } from "../../api/github-api-slice";
 import { isValidInput } from "./utils";
-import { useState } from "react";
-import { CustomInfiniteScroll } from "../../components/shared/infinite-scroll";
 import { GitHubUser } from "../../types/github-user";
+import { usePage } from "./use-form";
+import { Infinite } from "../../components/shared/infinite-scroll";
 
 export function UsersList() {
   const inputVal = useSelector((state: RootState) => state.searchForm.inputVal);
@@ -13,34 +13,37 @@ export function UsersList() {
     (state: RootState) => state.searchForm.selectVal
   );
 
-  const [page, setPage] = useState(1);
+  const { page, nextPage } = usePage(githubApiSlice, "searchUsers");
 
-  const { data, isError, error } = githubApiSlice.useSearchUsersQuery(
-    {
-      userName: inputVal,
-      page,
-    },
-    {
-      skip: !isValidInput(inputVal) || selectVal !== "users",
-    }
-  );
+  const shouldSkipQuery = !isValidInput(inputVal) || selectVal !== "users";
+
+  const { data, isError, isFetching, error } =
+    githubApiSlice.useSearchUsersQuery(
+      {
+        userName: inputVal,
+        page,
+      },
+      {
+        skip: shouldSkipQuery,
+      }
+    );
+
+  const hasMore =
+    data?.total_count! > data?.items.length! && !!data?.items.length!;
 
   return (
-    <div className="">
-      <CustomInfiniteScroll
-        error={error}
-        isError={isError}
-        hasMore={!!data?.hasMore}
-        itemsLength={data?.items.length || 0}
-        setPage={setPage}
-      >
-        <div className="grid grid-cols-4">
-          {data?.items.map((user) => (
-            <UserCard key={user.id} user={user} />
-          ))}
-        </div>
-      </CustomInfiniteScroll>
-    </div>
+    <Infinite
+      error={error}
+      isError={isError}
+      hasMore={hasMore}
+      nextPage={nextPage}
+    >
+      <div className="grid grid-cols-4">
+        {data?.items.map((user) => (
+          <UserCard key={user.id} user={user} />
+        ))}
+      </div>
+    </Infinite>
   );
 }
 

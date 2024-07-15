@@ -1,44 +1,35 @@
-import { FaSpinner, FaThumbsUp } from "react-icons/fa";
-import InfiniteScroll from "react-infinite-scroll-component";
+import { useEffect } from "react";
+import { useInView } from "react-intersection-observer";
+import { Spinner } from "./spinner";
 
 type Props = {
   error: any;
   children: React.ReactNode;
   hasMore: boolean;
-  itemsLength: number;
+  nextPage: () => void;
   isError: boolean;
-  setPage: (fn: (prev: number) => number) => void;
 };
 
-export function CustomInfiniteScroll(props: Props) {
-  const { setPage, error, isError, itemsLength, hasMore, children } = props;
+export function Infinite(props: Props) {
+  const { hasMore, nextPage, children, isError, error } = props;
 
-  const loadMore = () => {
-    setPage((p) => p + 1);
-  };
+  const { ref, inView } = useInView();
+
+  useEffect(() => {
+    if (inView) {
+      nextPage();
+    }
+  }, [inView]);
 
   return (
     <div>
-      <InfiniteScroll
-        dataLength={itemsLength || 0}
-        next={loadMore}
-        hasMore={hasMore}
-        loader={
-          isError ? null : (
-            <div className="flex justify-center items-center w-full h-40">
-              <FaSpinner fontSize={40} className="animate-spin" />
-            </div>
-          )
-        }
-        endMessage={
-          <div className="flex justify-center items-center gap-5 h-60 text-3xl">
-            <p>That's all.</p>
-            <FaThumbsUp />
-          </div>
-        }
-      >
-        {children}
-      </InfiniteScroll>
+      {children}
+
+      {hasMore && (
+        <div ref={ref}>
+          <Spinner />
+        </div>
+      )}
 
       {isError ? (
         <div className="py-10 text-red-500">

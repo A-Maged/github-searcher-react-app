@@ -20,8 +20,8 @@ export const searchFormSlice = createSlice({
       /* reset page */
       state.page = 1;
     },
-    nextPage: (state) => {
-      state.page += 1;
+    setPage: (state, action) => {
+      state.page = action.payload;
     },
   },
 });

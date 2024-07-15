@@ -6,12 +6,12 @@ import { unionBy } from "lodash";
 
 export type SearchReposResponse = {
   items: GithubRepository[];
-  hasMore: boolean;
+  total_count: number;
 };
 
 export type SearchUsersResponse = {
   items: GitHubUser[];
-  hasMore: boolean;
+  total_count: number;
 };
 
 export const githubApiSlice = createApi({
@@ -22,26 +22,23 @@ export const githubApiSlice = createApi({
   endpoints: (builder) => ({
     searchRepos: builder.query<
       SearchReposResponse,
-      { repoName: string; page?: number }
+      { repoName: string; page: number }
     >({
-      query: ({ repoName, page = 1 }) => ({
+      query: ({ repoName, page }) => ({
         url: `search/repositories?q=${repoName}&page=${page}`,
       }),
       transformResponse: (response: any) => ({
         items: response.items,
-        hasMore:
-          response.total_count > response.items.length &&
-          response.items.length > 0,
+        total_count: response.total_count,
       }),
-      // create a cache entry for each unique query
-      serializeQueryArgs: ({ endpointName, queryArgs }) => {
-        return endpointName + queryArgs.repoName;
+      /* create a cache entry for each unique query */
+      serializeQueryArgs: ({ queryArgs }) => {
+        return "repos-" + queryArgs.repoName;
       },
       merge: (currentCache, newItems) => {
-        currentCache.items = [...currentCache.items, ...newItems.items];
-        currentCache.hasMore = newItems.hasMore;
+        currentCache.items = unionBy(currentCache.items, newItems.items, "id");
       },
-      // Refetch when the page arg changes
+      /* Refetch when the page arg changes */
       forceRefetch({ currentArg, previousArg }) {
         return currentArg?.page !== previousArg?.page;
       },
@@ -49,27 +46,22 @@ export const githubApiSlice = createApi({
 
     searchUsers: builder.query<
       SearchUsersResponse,
-      { userName: string; page?: number }
+      { userName: string; page: number }
     >({
-      query: ({ userName, page = 1 }) => ({
+      query: ({ userName, page }) => ({
         url: `search/users?q=${userName}&page=${page}`,
       }),
-      transformResponse: (response: any) => ({
-        items: response.items,
-        hasMore:
-          response.total_count > response.items.length &&
-          response.items.length > 0,
-      }),
-      // create a cache entry for each unique query
-      serializeQueryArgs: ({ endpointName, queryArgs }) => {
-        return endpointName + queryArgs.userName;
+      /* create a cache entry for each unique query */
+      serializeQueryArgs: ({ queryArgs }) => {
+        return "users-" + queryArgs.userName;
       },
       merge: (currentCache, newItems) => {
-        currentCache.items = unionBy(currentCache.items, newItems.items, "id");
-
-        currentCache.hasMore = newItems.hasMore;
+        return {
+          items: [...currentCache.items, ...newItems.items],
+          total_count: newItems.total_count,
+        };
       },
-      // Refetch when the page arg changes
+      /* Refetch when the page arg changes */
       forceRefetch({ currentArg, previousArg }) {
         return currentArg?.page !== previousArg?.page;
       },
