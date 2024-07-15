@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import { HomePage } from "../pages/home/home.page";
+import { HomePage } from "../pages/home";
 
 export function AuthenticatedApp() {
   return (

@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import { LoginPage } from "../pages/login/login.page";
+import { LoginPage } from "../pages/login";
 
 export function GuestApp() {
   return (
