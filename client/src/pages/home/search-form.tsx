@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import debounce from "lodash.debounce";
+import { debounce } from "lodash";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import { searchFormSliceActions } from "./search-form-slice";
