@@ -1,5 +1,5 @@
 import { useSearchParams } from "react-router-dom";
-import { authApiSlice } from "../../store/auth-api-slice";
+import { authApiSlice } from "../../api/auth-api-slice";
 import { LoginWithGitHub } from "../../components/shared/login-with-gitHub";
 import { LoadingFullScreen } from "../../components/shared/loading-full-screen";
 
@@ -19,7 +19,7 @@ export function LoginPage() {
   }
 
   return (
-    <div className="flex h-screen w-full bg-slate-500 justify-center items-center">
+    <div className="flex justify-center items-center bg-slate-500 w-full h-screen">
       <LoginWithGitHub />
     </div>
   );

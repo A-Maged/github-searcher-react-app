@@ -1,5 +1,5 @@
 import { ACCESS_TOKEN_LOCAL_STORAGE_KEY } from "../../contants";
-import { authApiSlice } from "../../store/auth-api-slice";
+import { authApiSlice } from "../../api/auth-api-slice";
 
 export function Nav() {
   const { data: user } = authApiSlice.useGetUserQuery();

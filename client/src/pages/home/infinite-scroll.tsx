@@ -48,7 +48,7 @@ export function CustomInfiniteScroll({
         <div className="py-10 text-red-500">
           <h1 className="font-bold text-xl">Error:</h1>
 
-          <p className="text-lg">{(error as any).data}</p>
+          <p className="text-lg">{(error as any).message}</p>
 
           <button
             onClick={() => window.location.reload()}

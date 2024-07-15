@@ -1,19 +1,6 @@
 import type { BaseQueryFn } from "@reduxjs/toolkit/query";
-import axios from "axios";
 import type { AxiosRequestConfig, AxiosError } from "axios";
-import { ACCESS_TOKEN_LOCAL_STORAGE_KEY } from "../contants";
-
-export const httpClient = axios.create();
-
-httpClient.interceptors.request.use((config) => {
-  const accessToken = localStorage.getItem(ACCESS_TOKEN_LOCAL_STORAGE_KEY);
-
-  if (accessToken) {
-    config.headers["Authorization"] = `token ${accessToken}`;
-  }
-
-  return config;
-});
+import { httpClient } from "./http-client";
 
 export const axiosBaseQuery =
   (
@@ -27,7 +14,7 @@ export const axiosBaseQuery =
       headers?: AxiosRequestConfig["headers"];
     },
     unknown,
-    { status: number | undefined; data: {} }
+    { status: number | undefined; message: string }
   > =>
   async ({ url, method, data, params, headers }) => {
     try {
@@ -46,11 +33,12 @@ export const axiosBaseQuery =
       return {
         error: {
           status: err.response?.status,
-          data:
+          message:
             (err.response as any)?.message ||
             (err.response as any)?.data?.message ||
             err.message ||
-            err.response?.data,
+            err.response?.data ||
+            "An error occurred",
         },
       };
     }

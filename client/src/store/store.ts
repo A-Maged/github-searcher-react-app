@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { authApiSlice } from "./auth-api-slice";
-import { githubApiSlice } from "./github-api-slice";
+import { authApiSlice } from "../api/auth-api-slice";
+import { githubApiSlice } from "../api/github-api-slice";
 import { searchFormSlice } from "../pages/home/search-form-slice";
 
 export const store = configureStore({

@@ -1,7 +1,7 @@
 import { AuthenticatedApp } from "./authenticated-app";
 import { GuestApp } from "./guest-app";
 import { LoadingFullScreen } from "../components/shared/loading-full-screen";
-import { authApiSlice } from "../store/auth-api-slice";
+import { authApiSlice } from "../api/auth-api-slice";
 
 export function App() {
   const { data: user, isLoading } = authApiSlice.useGetUserQuery();

@@ -1,9 +1,10 @@
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
-import { githubApiSlice, GithubRepository } from "../../store/github-api-slice";
+import { githubApiSlice } from "../../api/github-api-slice";
 import { isValidInput } from "./utils";
 import { useState } from "react";
 import { CustomInfiniteScroll } from "./infinite-scroll";
+import { GithubRepository } from "../../types/github-repository";
 
 export function ReposList() {
   const inputVal = useSelector((state: RootState) => state.searchForm.inputVal);
