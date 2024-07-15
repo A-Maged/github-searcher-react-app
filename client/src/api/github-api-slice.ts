@@ -2,6 +2,7 @@ import { createApi } from "@reduxjs/toolkit/query/react";
 import { GitHubUser } from "../types/github-user";
 import { GithubRepository } from "../types/github-repository";
 import { axiosBaseQuery } from "./axios-base-query";
+import { unionBy } from "lodash";
 
 export type SearchReposResponse = {
   items: GithubRepository[];
@@ -32,7 +33,7 @@ export const githubApiSlice = createApi({
           response.total_count > response.items.length &&
           response.items.length > 0,
       }),
-      // Only have one cache entry because the arg always maps to one string
+      // create a cache entry for each unique query
       serializeQueryArgs: ({ endpointName, queryArgs }) => {
         return endpointName + queryArgs.repoName;
       },
@@ -42,7 +43,7 @@ export const githubApiSlice = createApi({
       },
       // Refetch when the page arg changes
       forceRefetch({ currentArg, previousArg }) {
-        return currentArg !== previousArg;
+        return currentArg?.page !== previousArg?.page;
       },
     }),
 
@@ -59,17 +60,18 @@ export const githubApiSlice = createApi({
           response.total_count > response.items.length &&
           response.items.length > 0,
       }),
-      // Only have one cache entry because the arg always maps to one string
+      // create a cache entry for each unique query
       serializeQueryArgs: ({ endpointName, queryArgs }) => {
         return endpointName + queryArgs.userName;
       },
       merge: (currentCache, newItems) => {
-        currentCache.items = [...currentCache.items, ...newItems.items];
+        currentCache.items = unionBy(currentCache.items, newItems.items, "id");
+
         currentCache.hasMore = newItems.hasMore;
       },
       // Refetch when the page arg changes
       forceRefetch({ currentArg, previousArg }) {
-        return currentArg !== previousArg;
+        return currentArg?.page !== previousArg?.page;
       },
     }),
   }),
