@@ -28,7 +28,9 @@ export const githubApiSlice = createApi({
       }),
       transformResponse: (response: any) => ({
         items: response.items,
-        hasMore: response.total_count > response.items.length,
+        hasMore:
+          response.total_count > response.items.length &&
+          response.items.length > 0,
       }),
       // Only have one cache entry because the arg always maps to one string
       serializeQueryArgs: ({ endpointName, queryArgs }) => {
@@ -53,7 +55,9 @@ export const githubApiSlice = createApi({
       }),
       transformResponse: (response: any) => ({
         items: response.items,
-        hasMore: response.total_count > response.items.length,
+        hasMore:
+          response.total_count > response.items.length &&
+          response.items.length > 0,
       }),
       // Only have one cache entry because the arg always maps to one string
       serializeQueryArgs: ({ endpointName, queryArgs }) => {
