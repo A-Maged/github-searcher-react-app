@@ -3,7 +3,7 @@ import { RootState } from "../../store/store";
 import { githubApiSlice } from "../../api/github-api-slice";
 import { isValidInput } from "./utils";
 import { useState } from "react";
-import { CustomInfiniteScroll } from "./infinite-scroll";
+import { CustomInfiniteScroll } from "../../components/shared/infinite-scroll";
 import { GitHubUser } from "../../types/github-user";
 
 export function UsersList() {

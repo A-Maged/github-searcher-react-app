@@ -1,4 +1,4 @@
-import { FaSpinner } from "react-icons/fa";
+import { FaSpinner, FaThumbsUp } from "react-icons/fa";
 import InfiniteScroll from "react-infinite-scroll-component";
 
 type Props = {
@@ -10,20 +10,15 @@ type Props = {
   setPage: (fn: (prev: number) => number) => void;
 };
 
-export function CustomInfiniteScroll({
-  setPage,
-  error,
-  isError,
-  itemsLength,
-  hasMore,
-  children,
-}: Props) {
+export function CustomInfiniteScroll(props: Props) {
+  const { setPage, error, isError, itemsLength, hasMore, children } = props;
+
   const loadMore = () => {
     setPage((p) => p + 1);
   };
 
   return (
-    <div className="">
+    <div>
       <InfiniteScroll
         dataLength={itemsLength || 0}
         next={loadMore}
@@ -36,9 +31,10 @@ export function CustomInfiniteScroll({
           )
         }
         endMessage={
-          <p>
-            <b>Yay! You have seen it all</b>
-          </p>
+          <div className="flex justify-center items-center gap-5 h-60 text-3xl">
+            <p>That's all.</p>
+            <FaThumbsUp />
+          </div>
         }
       >
         {children}
