@@ -27,7 +27,7 @@ export const axiosBaseQuery =
       headers?: AxiosRequestConfig["headers"];
     },
     unknown,
-    unknown
+    { status: number | undefined; data: {} }
   > =>
   async ({ url, method, data, params, headers }) => {
     try {
@@ -38,13 +38,19 @@ export const axiosBaseQuery =
         params,
         headers,
       });
+
       return { data: result.data };
     } catch (axiosError) {
       const err = axiosError as AxiosError;
+
       return {
         error: {
           status: err.response?.status,
-          data: err.response?.data || err.message,
+          data:
+            (err.response as any)?.message ||
+            (err.response as any)?.data?.message ||
+            err.message ||
+            err.response?.data,
         },
       };
     }
