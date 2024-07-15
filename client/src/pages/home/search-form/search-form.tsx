@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import { debounce } from "lodash";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../store/store";
+import { RootState } from "../../../store/store";
 import { searchFormSliceActions } from "./search-form-slice";
 
 export function SearchForm() {
@@ -21,13 +21,12 @@ export function SearchForm() {
       <input
         defaultValue={inputVal}
         onChange={(e) => debouncedSetInputVal(e.target.value)}
-        name="q"
         type="text"
         placeholder="Start typing to search .."
+        autoComplete="off"
       />
 
       <select
-        name="type"
         value={selectVal}
         onChange={(e) =>
           dispatch(

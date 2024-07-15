@@ -10,7 +10,7 @@ export interface AccessTokenResponse {
 }
 
 export const authApiSlice = createApi({
-  reducerPath: "api",
+  reducerPath: "auth-api",
 
   baseQuery: axiosBaseQuery({
     baseUrl: "",

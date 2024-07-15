@@ -1,5 +1,5 @@
 import { FaGithub } from "react-icons/fa";
-import { SearchForm } from "./search-form";
+import { SearchForm } from "./search-form/search-form";
 
 export function Header() {
   return (

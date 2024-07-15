@@ -5,13 +5,23 @@ export const searchFormSlice = createSlice({
   initialState: {
     inputVal: "",
     selectVal: "users",
+    page: 1,
   },
   reducers: {
     setInputVal: (state, action) => {
       state.inputVal = action.payload;
+
+      /* reset page */
+      state.page = 1;
     },
     setSelectVal: (state, action) => {
       state.selectVal = action.payload;
+
+      /* reset page */
+      state.page = 1;
+    },
+    nextPage: (state) => {
+      state.page += 1;
     },
   },
 });

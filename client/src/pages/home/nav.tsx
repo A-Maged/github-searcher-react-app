@@ -12,7 +12,7 @@ export function Nav() {
   return (
     <div className="bg-black p-4 text-white">
       <div className="flex justify-between items-center m-auto container">
-        <p>Hi ({user?.name})</p>
+        <p>Hi ({user?.login})</p>
 
         <button className="btn" onClick={logout}>
           logout

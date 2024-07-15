@@ -1,7 +1,7 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import { authApiSlice } from "../api/auth-api-slice";
 import { githubApiSlice } from "../api/github-api-slice";
-import { searchFormSlice } from "../pages/home/search-form-slice";
+import { searchFormSlice } from "../pages/home/search-form/search-form-slice";
 import storage from "redux-persist/lib/storage";
 import {
   persistReducer,
