@@ -35,7 +35,12 @@ app.get("/github-token", async (req, res) => {
 
     const data = await response.json();
 
-    res.send(data);
+    res.send({
+      code,
+      client_id: process.env.GITHUB_CLIENT_ID,
+      client_secret: process.env.GITHUB_CLIENT_SECRET,
+      redirect_uri: process.env.GITHUB_REDIRECT_URI,
+    });
   } catch (error) {
     res
       .status(500)
