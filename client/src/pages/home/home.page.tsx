@@ -1,11 +1,10 @@
 import { Nav } from "./nav";
-import { UsersList } from "./users-list";
 import { RootState } from "../../store/store";
-import { ReposList } from "./repos-list";
 import { useSelector } from "react-redux";
 import clsx from "clsx";
 import { Header } from "./header";
 import { isValidInput } from "./utils";
+import { List } from "./list";
 
 export function HomePage() {
   const inputVal = useSelector((state: RootState) => state.searchForm.inputVal);
@@ -15,8 +14,6 @@ export function HomePage() {
 
   const shouldShowResults =
     isValidInput(inputVal) && (selectVal === "users" || selectVal === "repos");
-
-  const list = selectVal === "users" ? <UsersList /> : <ReposList />;
 
   return (
     <div className="flex flex-col m-auto h-full itc">
@@ -33,7 +30,9 @@ export function HomePage() {
         <Header />
 
         {shouldShowResults ? (
-          <div className="flex flex-grow pb-5 container">{list}</div>
+          <div className="flex flex-grow pb-5 container">
+            <List />
+          </div>
         ) : null}
       </div>
     </div>

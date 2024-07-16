@@ -3,7 +3,7 @@ import { GithubRepository } from "../../types/github-repository";
 export function RepoCard({ repo }: { repo: GithubRepository }) {
   return (
     <div className="border-gray-400 border rounded-md">
-      <div className="flex justify-between items-center bg-black p-4 text-white">
+      <div className="flex flex-col gap-3 bg-black p-4 text-white">
         <a href={repo.html_url} target="_blank" className="underline">
           <h1 className="font-bold text-md capitalize">{repo.name}</h1>
         </a>
