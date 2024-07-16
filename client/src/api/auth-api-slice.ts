@@ -1,7 +1,7 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 import { httpClient } from "./http-client";
 import axios from "axios";
-import { ACCESS_TOKEN_LOCAL_STORAGE_KEY } from "../contants";
+import { ACCESS_TOKEN_LOCAL_STORAGE_KEY } from "../constants";
 import { GitHubUser } from "../types/github-user";
 import { axiosBaseQuery } from "./axios-base-query";
 

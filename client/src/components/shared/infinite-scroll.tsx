@@ -24,17 +24,6 @@ export function InfiniteScroll(props: Props) {
     }
   }, [inView]);
 
-  const firsPage = page === 1 || Number.isNaN(page);
-  console.log(firsPage);
-
-  if (isLoading && firsPage) {
-    return (
-      <div className="flex flex-grow justify-center items-center">
-        <Spinner />
-      </div>
-    );
-  }
-
   return (
     <div className="w-full">
       {children}

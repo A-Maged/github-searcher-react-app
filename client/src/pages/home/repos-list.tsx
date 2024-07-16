@@ -7,7 +7,7 @@ import {
 import { isValidInput } from "./utils";
 import { GithubRepository } from "../../types/github-repository";
 import { InfiniteScroll } from "../../components/shared/infinite-scroll";
-import { RESULTS_PER_PAGE } from "../../contants";
+import { RESULTS_PER_PAGE } from "../../constants";
 import { useEffect } from "react";
 
 export function ReposList() {
@@ -19,15 +19,15 @@ export function ReposList() {
 
   const shouldSkipQuery = !isValidInput(inputVal) || selectVal !== "repos";
 
-  const currentPage = useSelector(
-    (state: RootState) =>
-      (
-        state["github-api"].queries[selectVal + inputVal]
-          ?.data as SearchReposResponse
-      )?.items?.length / RESULTS_PER_PAGE
-  );
+  const currentPage = useSelector((state: RootState) => {
+    const query = state["github-api"].queries[selectVal + inputVal];
+    const response = query?.data as SearchReposResponse;
+    const dataLength = response?.items.length;
 
-  const [trigger, { data, isError, error, isFetching }] =
+    return Math.ceil(dataLength / RESULTS_PER_PAGE);
+  });
+
+  const [search, { data, isError, error, isFetching }] =
     githubApiSlice.useLazySearchReposQuery();
 
   const hasMore = data?.total_count! > data?.items.length!;
@@ -35,7 +35,7 @@ export function ReposList() {
   function nextPage() {
     if (shouldSkipQuery) return;
 
-    trigger({
+    search({
       repoName: inputVal,
       page: currentPage ? currentPage + 1 : 1,
     });

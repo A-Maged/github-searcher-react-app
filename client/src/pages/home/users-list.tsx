@@ -7,7 +7,7 @@ import {
 import { isValidInput } from "./utils";
 import { GitHubUser } from "../../types/github-user";
 import { InfiniteScroll } from "../../components/shared/infinite-scroll";
-import { RESULTS_PER_PAGE } from "../../contants";
+import { RESULTS_PER_PAGE } from "../../constants";
 import { useEffect } from "react";
 
 export function UsersList() {
@@ -17,15 +17,15 @@ export function UsersList() {
     (state: RootState) => state.searchForm.selectVal
   );
 
-  const currentPage = useSelector(
-    (state: RootState) =>
-      (
-        state["github-api"].queries[selectVal + inputVal]
-          ?.data as SearchUsersResponse
-      )?.items?.length / RESULTS_PER_PAGE
-  );
+  const currentPage = useSelector((state: RootState) => {
+    const query = state["github-api"].queries[selectVal + inputVal];
+    const response = query?.data as SearchUsersResponse;
+    const dataLength = response?.items.length;
 
-  const [trigger, { data, isError, error, isFetching }] =
+    return Math.ceil(dataLength / RESULTS_PER_PAGE);
+  });
+
+  const [search, { data, isError, error, isFetching }] =
     githubApiSlice.useLazySearchUsersQuery();
 
   const hasMore = data?.total_count! > data?.items.length!;
@@ -33,7 +33,7 @@ export function UsersList() {
   function nextPage() {
     if (!isValidInput(inputVal) || selectVal !== "users") return;
 
-    trigger({
+    search({
       userName: inputVal,
       page: currentPage ? currentPage + 1 : 1,
     });

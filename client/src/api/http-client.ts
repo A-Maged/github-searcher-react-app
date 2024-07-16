@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ACCESS_TOKEN_LOCAL_STORAGE_KEY } from "../contants";
+import { ACCESS_TOKEN_LOCAL_STORAGE_KEY } from "../constants";
 
 export const httpClient = axios.create();
 

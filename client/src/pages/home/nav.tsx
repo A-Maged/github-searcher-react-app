@@ -1,4 +1,4 @@
-import { ACCESS_TOKEN_LOCAL_STORAGE_KEY } from "../../contants";
+import { ACCESS_TOKEN_LOCAL_STORAGE_KEY } from "../../constants";
 import { authApiSlice } from "../../api/auth-api-slice";
 
 export function Nav() {

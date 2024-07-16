@@ -4,7 +4,7 @@ import { GithubRepository } from "../types/github-repository";
 import { axiosBaseQuery } from "./axios-base-query";
 import { unionBy } from "lodash";
 import { SearchFormSelectVal } from "../pages/home/search-form/search-form-slice";
-import { RESULTS_PER_PAGE } from "../contants";
+import { RESULTS_PER_PAGE } from "../constants";
 
 export type SearchReposResponse = {
   items: GithubRepository[];
