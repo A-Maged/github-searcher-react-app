@@ -74,7 +74,7 @@ export function List() {
       ))}
     </div>
   ) : (
-    <div className="gap-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+    <div className="gap-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
       {usersResults.data?.items.map((user) => (
         <UserCard key={user.id} user={user} />
       ))}
