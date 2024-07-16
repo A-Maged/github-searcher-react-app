@@ -5,10 +5,10 @@ import {
   SearchUsersResponse,
 } from "../../api/github-api-slice";
 import { isValidInput } from "./utils";
-import { GitHubUser } from "../../types/github-user";
 import { InfiniteScroll } from "../../components/shared/infinite-scroll";
 import { RESULTS_PER_PAGE } from "../../constants";
 import { useEffect } from "react";
+import { UserCard } from "../../components/shared/user-card";
 
 export function UsersList() {
   const inputVal = useSelector((state: RootState) => state.searchForm.inputVal);
@@ -23,6 +23,12 @@ export function UsersList() {
     const dataLength = response?.items.length;
 
     return Math.ceil(dataLength / RESULTS_PER_PAGE);
+  });
+
+  const isFirstPage = useSelector((state: RootState) => {
+    const query = state["github-api"].queries[selectVal + inputVal];
+    const response = query?.data;
+    return !response;
   });
 
   const [search, { data, isError, error, isFetching }] =
@@ -45,7 +51,7 @@ export function UsersList() {
 
   return (
     <InfiniteScroll
-      page={currentPage}
+      isFirstPage={isFirstPage}
       isLoading={isFetching}
       error={error}
       isError={isError}
@@ -58,25 +64,5 @@ export function UsersList() {
         ))}
       </div>
     </InfiniteScroll>
-  );
-}
-
-function UserCard({ user }: { user: GitHubUser }) {
-  return (
-    <div
-      key={user.id}
-      className="flex items-center gap-5 bg-gray-100 rounded-lg capitalize overflow-hidden"
-    >
-      <img src={user.avatar_url} alt={user.login} className="w-24 h-24" />
-
-      <a
-        href={user.html_url}
-        target="_blank"
-        rel="noreferrer"
-        className="font-semibold underline"
-      >
-        {user.login}
-      </a>
-    </div>
   );
 }

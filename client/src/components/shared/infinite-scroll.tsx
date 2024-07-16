@@ -8,12 +8,20 @@ type Props = {
   hasMore: boolean;
   nextPage: () => void;
   isError: boolean;
-  page: number;
+  isFirstPage: boolean;
   isLoading: boolean;
 };
 
 export function InfiniteScroll(props: Props) {
-  const { hasMore, nextPage, children, isError, error } = props;
+  const {
+    hasMore,
+    nextPage,
+    isLoading,
+    isFirstPage,
+    children,
+    isError,
+    error,
+  } = props;
 
   const { ref, inView } = useInView();
 
@@ -22,6 +30,10 @@ export function InfiniteScroll(props: Props) {
       nextPage();
     }
   }, [inView]);
+
+  if (isLoading && isFirstPage) {
+    return <Spinner />;
+  }
 
   return (
     <div className="w-full">
