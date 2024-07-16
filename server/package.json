@@ -4,8 +4,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon ./src/index.js",
-    "start": "node ./public/index.js",
-    "build": "mkdir public && cp ./src/index.js ./public/index.js"
+    "start": "node ./src/index.js"
   },
   "keywords": [],
   "author": "",
