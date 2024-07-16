@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "nodemon ./src/index.js",
     "start": "node ./src/index.js",
-    "build": "cp ./src/index.js ./public/index.js"
+    "build": "mkdir public && cp ./src/index.js ./public/index.js"
   },
   "keywords": [],
   "author": "",
