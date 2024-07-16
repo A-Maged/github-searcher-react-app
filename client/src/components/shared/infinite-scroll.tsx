@@ -10,6 +10,7 @@ type Props = {
   isError: boolean;
   isFirstPage: boolean;
   isLoading: boolean;
+  dataLength?: number;
 };
 
 export function InfiniteScroll(props: Props) {
@@ -21,6 +22,7 @@ export function InfiniteScroll(props: Props) {
     children,
     isError,
     error,
+    dataLength,
   } = props;
 
   const { ref, inView } = useInView();
@@ -38,6 +40,12 @@ export function InfiniteScroll(props: Props) {
   return (
     <div className="w-full">
       {children}
+
+      {!hasMore && !dataLength ? (
+        <div className="py-5 text-center text-gray-500">
+          <p className="text-lg">No results to show</p>
+        </div>
+      ) : null}
 
       {hasMore && !isError && (
         <div ref={ref}>

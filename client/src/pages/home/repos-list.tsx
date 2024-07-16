@@ -53,6 +53,7 @@ export function ReposList() {
 
   return (
     <InfiniteScroll
+      dataLength={data?.items.length}
       isFirstPage={isFirstPage}
       isLoading={isFetching}
       error={error}

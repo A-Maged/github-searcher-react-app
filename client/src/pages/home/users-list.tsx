@@ -51,6 +51,7 @@ export function UsersList() {
 
   return (
     <InfiniteScroll
+      dataLength={data?.items.length}
       isFirstPage={isFirstPage}
       isLoading={isFetching}
       error={error}

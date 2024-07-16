@@ -33,7 +33,7 @@ export function HomePage() {
         <Header />
 
         {shouldShowResults ? (
-          <div className="flex flex-grow container">{list}</div>
+          <div className="flex flex-grow pb-5 container">{list}</div>
         ) : null}
       </div>
     </div>
