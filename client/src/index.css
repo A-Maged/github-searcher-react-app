@@ -30,3 +30,8 @@ select {
   @apply btn;
   @apply bg-red-500;
 }
+
+.btn-dark {
+  @apply btn;
+  @apply bg-neutral-800;
+}

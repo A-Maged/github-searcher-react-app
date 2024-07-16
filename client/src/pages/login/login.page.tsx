@@ -19,7 +19,7 @@ export function LoginPage() {
   }
 
   return (
-    <div className="flex justify-center items-center bg-slate-500 w-full h-screen">
+    <div className="flex justify-center items-center bg-white w-full h-screen">
       <LoginWithGitHub />
     </div>
   );

@@ -24,16 +24,16 @@ export function HomePage() {
 
       <div
         className={clsx(
-          "flex flex-col p-4 md:p-0 container m-auto mt-10 gap-10",
+          "flex flex-col p-4 md:p-0 container flex-grow m-auto mt-10 gap-10",
           {
-            "justify-center items-center flex-grow -mt-36": !shouldShowResults,
+            "justify-center items-center -mt-40 ": !shouldShowResults,
           }
         )}
       >
         <Header />
 
         {shouldShowResults ? (
-          <div className="m-auto container">{list}</div>
+          <div className="flex flex-grow container">{list}</div>
         ) : null}
       </div>
     </div>

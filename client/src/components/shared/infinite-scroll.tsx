@@ -8,10 +8,13 @@ type Props = {
   hasMore: boolean;
   nextPage: () => void;
   isError: boolean;
+  page: number;
+  isLoading: boolean;
 };
 
-export function Infinite(props: Props) {
-  const { hasMore, nextPage, children, isError, error } = props;
+export function InfiniteScroll(props: Props) {
+  const { hasMore, page, isLoading, nextPage, children, isError, error } =
+    props;
 
   const { ref, inView } = useInView();
 
@@ -21,11 +24,22 @@ export function Infinite(props: Props) {
     }
   }, [inView]);
 
+  const firsPage = page === 1 || Number.isNaN(page);
+  console.log(firsPage);
+
+  if (isLoading && firsPage) {
+    return (
+      <div className="flex flex-grow justify-center items-center">
+        <Spinner />
+      </div>
+    );
+  }
+
   return (
-    <div>
+    <div className="w-full">
       {children}
 
-      {hasMore && (
+      {hasMore && !isError && (
         <div ref={ref}>
           <Spinner />
         </div>

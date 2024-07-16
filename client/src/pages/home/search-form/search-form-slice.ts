@@ -1,11 +1,23 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+export enum SearchFormSelectVal {
+  Users = "users",
+  Repos = "repos",
+}
+
+type SearchFormState = {
+  inputVal: string;
+  selectVal: SearchFormSelectVal;
+};
+
+const initialState: SearchFormState = {
+  inputVal: "",
+  selectVal: SearchFormSelectVal.Users,
+};
+
 export const searchFormSlice = createSlice({
   name: "searchForm",
-  initialState: {
-    inputVal: "",
-    selectVal: "users",
-  },
+  initialState,
   reducers: {
     setInputVal: (state, action) => {
       state.inputVal = action.payload;

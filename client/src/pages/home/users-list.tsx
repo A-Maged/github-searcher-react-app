@@ -1,10 +1,14 @@
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
-import { githubApiSlice } from "../../api/github-api-slice";
+import {
+  githubApiSlice,
+  SearchUsersResponse,
+} from "../../api/github-api-slice";
 import { isValidInput } from "./utils";
 import { GitHubUser } from "../../types/github-user";
-import { usePage } from "./use-form";
-import { Infinite } from "../../components/shared/infinite-scroll";
+import { InfiniteScroll } from "../../components/shared/infinite-scroll";
+import { RESULTS_PER_PAGE } from "../../contants";
+import { useEffect } from "react";
 
 export function UsersList() {
   const inputVal = useSelector((state: RootState) => state.searchForm.inputVal);
@@ -13,54 +17,63 @@ export function UsersList() {
     (state: RootState) => state.searchForm.selectVal
   );
 
-  const { page, nextPage } = usePage(githubApiSlice, "searchUsers");
+  const currentPage = useSelector(
+    (state: RootState) =>
+      (
+        state["github-api"].queries[selectVal + inputVal]
+          ?.data as SearchUsersResponse
+      )?.items?.length / RESULTS_PER_PAGE
+  );
 
-  const shouldSkipQuery = !isValidInput(inputVal) || selectVal !== "users";
+  const [trigger, { data, isError, error, isFetching }] =
+    githubApiSlice.useLazySearchUsersQuery();
 
-  const { data, isError, isFetching, error } =
-    githubApiSlice.useSearchUsersQuery(
-      {
-        userName: inputVal,
-        page,
-      },
-      {
-        skip: shouldSkipQuery,
-      }
-    );
+  const hasMore = data?.total_count! > data?.items.length!;
 
-  const hasMore =
-    data?.total_count! > data?.items.length! && !!data?.items.length!;
+  function nextPage() {
+    if (!isValidInput(inputVal) || selectVal !== "users") return;
+
+    trigger({
+      userName: inputVal,
+      page: currentPage ? currentPage + 1 : 1,
+    });
+  }
+
+  useEffect(() => {
+    nextPage();
+  }, [inputVal, selectVal]);
 
   return (
-    <Infinite
+    <InfiniteScroll
+      page={currentPage}
+      isLoading={isFetching}
       error={error}
       isError={isError}
       hasMore={hasMore}
       nextPage={nextPage}
     >
-      <div className="grid grid-cols-4">
+      <div className="gap-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
         {data?.items.map((user) => (
           <UserCard key={user.id} user={user} />
         ))}
       </div>
-    </Infinite>
+    </InfiniteScroll>
   );
 }
 
 function UserCard({ user }: { user: GitHubUser }) {
   return (
-    <div key={user.id}>
-      <img
-        src={user.avatar_url}
-        alt={user.login}
-        className="rounded-full w-20 h-20"
-      />
+    <div
+      key={user.id}
+      className="flex items-center gap-5 bg-gray-100 rounded-lg capitalize overflow-hidden"
+    >
+      <img src={user.avatar_url} alt={user.login} className="w-24 h-24" />
 
       <a
         href={user.html_url}
         target="_blank"
         rel="noreferrer"
-        className="font-semibold text-blue-500"
+        className="font-semibold underline"
       >
         {user.login}
       </a>

@@ -3,6 +3,8 @@ import { GitHubUser } from "../types/github-user";
 import { GithubRepository } from "../types/github-repository";
 import { axiosBaseQuery } from "./axios-base-query";
 import { unionBy } from "lodash";
+import { SearchFormSelectVal } from "../pages/home/search-form/search-form-slice";
+import { RESULTS_PER_PAGE } from "../contants";
 
 export type SearchReposResponse = {
   items: GithubRepository[];
@@ -25,7 +27,7 @@ export const githubApiSlice = createApi({
       { repoName: string; page: number }
     >({
       query: ({ repoName, page }) => ({
-        url: `search/repositories?q=${repoName}&page=${page}`,
+        url: `search/repositories?per_page=${RESULTS_PER_PAGE}&q=${repoName}&page=${page}`,
       }),
       transformResponse: (response: any) => ({
         items: response.items,
@@ -33,7 +35,7 @@ export const githubApiSlice = createApi({
       }),
       /* create a cache entry for each unique query */
       serializeQueryArgs: ({ queryArgs }) => {
-        return "repos-" + queryArgs.repoName;
+        return SearchFormSelectVal.Repos + queryArgs.repoName;
       },
       merge: (currentCache, newItems) => {
         currentCache.items = unionBy(currentCache.items, newItems.items, "id");
@@ -49,17 +51,14 @@ export const githubApiSlice = createApi({
       { userName: string; page: number }
     >({
       query: ({ userName, page }) => ({
-        url: `search/users?q=${userName}&page=${page}`,
+        url: `search/users?per_page=${RESULTS_PER_PAGE}&q=${userName}&page=${page}`,
       }),
       /* create a cache entry for each unique query */
       serializeQueryArgs: ({ queryArgs }) => {
-        return "users-" + queryArgs.userName;
+        return SearchFormSelectVal.Users + queryArgs.userName;
       },
       merge: (currentCache, newItems) => {
-        return {
-          items: [...currentCache.items, ...newItems.items],
-          total_count: newItems.total_count,
-        };
+        currentCache.items = unionBy(currentCache.items, newItems.items, "id");
       },
       /* Refetch when the page arg changes */
       forceRefetch({ currentArg, previousArg }) {

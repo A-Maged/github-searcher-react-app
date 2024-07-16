@@ -6,15 +6,16 @@ export function Nav() {
 
   function logout() {
     localStorage.removeItem(ACCESS_TOKEN_LOCAL_STORAGE_KEY);
+    localStorage.clear();
     window.location.href = "/";
   }
 
   return (
-    <div className="bg-black p-4 text-white">
+    <div className="z-10 bg-black p-4 text-white">
       <div className="flex justify-between items-center m-auto container">
         <p>Hi ({user?.login})</p>
 
-        <button className="btn" onClick={logout}>
+        <button className="btn btn-danger" onClick={logout}>
           logout
         </button>
       </div>
