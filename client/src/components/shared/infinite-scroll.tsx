@@ -13,8 +13,7 @@ type Props = {
 };
 
 export function InfiniteScroll(props: Props) {
-  const { hasMore, page, isLoading, nextPage, children, isError, error } =
-    props;
+  const { hasMore, nextPage, children, isError, error } = props;
 
   const { ref, inView } = useInView();
 
