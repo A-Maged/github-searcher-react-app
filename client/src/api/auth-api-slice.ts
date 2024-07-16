@@ -40,7 +40,7 @@ export const authApiSlice = createApi({
     getAccessTokenWithCode: builder.query<AccessTokenResponse, string>({
       queryFn: async (code, api) => {
         const response = await axios<AccessTokenResponse>(
-          `http://localhost:4000/github-token?code=${code}`
+          `${import.meta.env.VITE_BACKEND_URL}/github-token?code=${code}`
         );
 
         if (!response.data.access_token) {
