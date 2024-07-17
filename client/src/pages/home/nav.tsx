@@ -4,6 +4,7 @@ import { authApiSlice } from "../../api/auth-api-slice";
 export function Nav() {
   const { data: user } = authApiSlice.useGetUserQuery();
 
+  
   function logout() {
     localStorage.removeItem(ACCESS_TOKEN_LOCAL_STORAGE_KEY);
     localStorage.clear();
