@@ -1,6 +1,22 @@
+# Features
+
+- Infinite scroll
+- OAuth with github
+- Search github users
+- Search github repositories
+- Cache fetched data to localstorage
+
+# Stack
+
+- React
+- Typescript
+- Redux Toolkit
+- Redux Persist
+- Tailwind CSS
+
 # Server
 
-- created a small Node.js server to proxy "get access token" request in order to protect environment secrets like GITHUB_Client_SECRET.
+- created a small Node.js server to proxy "get access token" request in order to protect environment secrets like GITHUB_CLIENT_SECRET.
 
 # CLient
 
