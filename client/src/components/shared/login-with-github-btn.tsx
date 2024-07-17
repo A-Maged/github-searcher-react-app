@@ -1,6 +1,6 @@
 import { FaGithub } from "react-icons/fa";
 
-export function LoginWithGitHub() {
+export function LoginWithGitHubBtn() {
   return (
     <a
       className="btn-dark"
